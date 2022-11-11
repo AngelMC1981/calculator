@@ -18,6 +18,19 @@
 			input.value = input.value.substring(0, input.value.length - 1)
 		}	
 		
+		
+		function sum(input)
+		{
+			input.value = document.getElementsByName("operSum1")[0].value+'+'+document.getElementsByName("operSum2")[0].value
+			callWebServicePost(input)
+		}
+		
+		function res(input)
+		{
+			input.value = document.getElementsByName("operRes1")[0].value+'-'+document.getElementsByName("operRes2")[0].value
+			callWebServicePost(input)
+		}
+		
 		function callWebServicePost(input)
 		{
 			let response;
@@ -41,55 +54,115 @@
 			let result = await response.text();
 		
 			input.value = result;
+			document.getElementById("resultadoSuma").value = result;
+			document.getElementById("resultadoResta").value = result;
 			})()	 
 		}
+		
+		  
+		function mostrar(dato){
+			if(dato=="1"){
+				document.getElementById("calcCompleta").style.display = "block";
+				document.getElementById("calcSuma").style.display = "none";
+				document.getElementById("calcResta").style.display = "none";
+			}
+			if(dato=="2"){
+				document.getElementById("calcCompleta").style.display = "none";
+				document.getElementById("calcSuma").style.display = "block";
+				document.getElementById("calcResta").style.display = "none";
+			}
+			if(dato=="3"){
+				document.getElementById("calcCompleta").style.display = "none";
+				document.getElementById("calcSuma").style.display = "none";
+				document.getElementById("calcResta").style.display = "block";
+			}
+			
+			document.getElementById("RequestOperacion").value = "";
+			document.getElementById("resultadoSuma").value = "";
+			document.getElementById("operSum1").value = "";
+			document.getElementById("operSum2").value = "";
+			document.getElementById("resultadoResta").value = "";
+			document.getElementById("operRes1").value = "";
+			document.getElementById("operRes2").value = "";
+			
+		}
+		
 	</script>
   </head>
   <body>
-	<form>
-		<table border="1" align=left>
-			<tr align="center">
-				<td colspan = 4>
-					<table border="0">	
-						<tr>
-							<td align=right><input name="RequestOperacion" value="0" readonly>
-							</td>	
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr align=center>
-				<td><input type="button" value=" 7 " onClick="addCharacter(this.form.RequestOperacion, '7')"></td>
-				<td><input type="button" value=" 8 " onClick="addCharacter(this.form.RequestOperacion, '8')"></td>
-				<td><input type="button" value=" 9 " onClick="addCharacter(this.form.RequestOperacion, '9')"></td>
-				<td><input type="button" value=" / " onClick="addCharacter(this.form.RequestOperacion, '/')"></td>
-			</tr>
-			<tr align=center>
-				<td><input type="button" value=" 4 " onClick="addCharacter(this.form.RequestOperacion, '4')"></td>
-				<td><input type="button" value=" 5 " onClick="addCharacter(this.form.RequestOperacion, '5')"></td>
-				<td><input type="button" value=" 6 " onClick="addCharacter(this.form.RequestOperacion, '6')"></td>
-				<td><input type="button" value=" * " onClick="addCharacter(this.form.RequestOperacion, '*')"></td>
-			</tr>
-			<tr align=center>
-				<td><input type="button" value=" 1 " onClick="addCharacter(this.form.RequestOperacion, '1')"></td>
-				<td><input type="button" value=" 2 " onClick="addCharacter(this.form.RequestOperacion, '2')"></td>
-				<td><input type="button" value=" 3 " onClick="addCharacter(this.form.RequestOperacion, '3')"></td>
-				<td><input type="button" value=" - " onClick="addCharacter(this.form.RequestOperacion, '-')"></td>
-			</tr>
-			<tr align=center>
-				<td><input type="button" value=" 0 " onClick="addCharacter(this.form.RequestOperacion, '0')"> </td>
-				<td><input type="button" value=" . " onClick="addCharacter(this.form.RequestOperacion, '.')"> </td>
-				<td><input type="button" value=" <- " onClick="deleteCharacter(this.form.RequestOperacion)"></td>
-				<td><input type="button" value=" + "  onClick="addCharacter(this.form.RequestOperacion, '+')"> </td>
-			</tr>
-			<tr align=center>
-				<td><input type="button" value=" ( " onClick="addCharacter(this.form.RequestOperacion, '(')"> </td>
-				<td><input type="button" value=" ) " onClick="addCharacter(this.form.RequestOperacion, ')')"> </td>
-				<td><input type="button" value=" C " onClick="this.form.RequestOperacion.value = 0 "></td>
-				<td><input type="button" value=" = " onClick="callWebServicePost(this.form.RequestOperacion)"></td>
-			</tr>
 
-		</table>
-    </form>
+	
+	
+	<div class="row">
+        <div class="col-md-5 col-md-offset-3">
+			<form>
+                <div class="form-group" id="opciones" >
+                    <label for="">Opciones Calculador:</label>
+					<p>
+                    <input type="radio" name="opc" value="1" onchange="mostrar(this.value);">Calculadora completa
+                    <input type="radio" name="opc" value="2"  onchange="mostrar(this.value);">Solo Suma 
+                    <input type="radio" name="opc" value="3"  onchange="mostrar(this.value);">Solo Resta
+                </div>
+                <div class="form-group" id="calcCompleta" style="display:none;">
+					<table border="1" align=left>
+						<tr align="center">
+							<td colspan = 4>
+								<table border="0">	
+									<tr>
+										<td align=right><input id="RequestOperacion" name="RequestOperacion" value="0" readonly>
+										</td>	
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr align=center>
+							<td><input type="button" value=" 7 " onClick="addCharacter(this.form.RequestOperacion, '7')"></td>
+							<td><input type="button" value=" 8 " onClick="addCharacter(this.form.RequestOperacion, '8')"></td>
+							<td><input type="button" value=" 9 " onClick="addCharacter(this.form.RequestOperacion, '9')"></td>
+							<td><input type="button" value=" / " onClick="addCharacter(this.form.RequestOperacion, '/')"></td>
+						</tr>
+						<tr align=center>
+							<td><input type="button" value=" 4 " onClick="addCharacter(this.form.RequestOperacion, '4')"></td>
+							<td><input type="button" value=" 5 " onClick="addCharacter(this.form.RequestOperacion, '5')"></td>
+							<td><input type="button" value=" 6 " onClick="addCharacter(this.form.RequestOperacion, '6')"></td>
+							<td><input type="button" value=" * " onClick="addCharacter(this.form.RequestOperacion, '*')"></td>
+						</tr>
+						<tr align=center>
+							<td><input type="button" value=" 1 " onClick="addCharacter(this.form.RequestOperacion, '1')"></td>
+							<td><input type="button" value=" 2 " onClick="addCharacter(this.form.RequestOperacion, '2')"></td>
+							<td><input type="button" value=" 3 " onClick="addCharacter(this.form.RequestOperacion, '3')"></td>
+							<td><input type="button" value=" - " onClick="addCharacter(this.form.RequestOperacion, '-')"></td>
+						</tr>
+						<tr align=center>
+							<td><input type="button" value=" 0 " onClick="addCharacter(this.form.RequestOperacion, '0')"> </td>
+							<td><input type="button" value=" . " onClick="addCharacter(this.form.RequestOperacion, '.')"> </td>
+							<td><input type="button" value=" <- " onClick="deleteCharacter(this.form.RequestOperacion)"></td>
+							<td><input type="button" value=" + "  onClick="addCharacter(this.form.RequestOperacion, '+')"> </td>
+						</tr>
+						<tr align=center>
+							<td><input type="button" value=" ( " onClick="addCharacter(this.form.RequestOperacion, '(')"> </td>
+							<td><input type="button" value=" ) " onClick="addCharacter(this.form.RequestOperacion, ')')"> </td>
+							<td><input type="button" value=" C " onClick="this.form.RequestOperacion.value = 0 "></td>
+							<td><input type="button" value=" = " onClick="callWebServicePost(this.form.RequestOperacion)"></td>
+						</tr>
+					</table>   
+                </div>
+                <div class="form-group" id="calcSuma" style="display:none;">
+                    <label for="">Suma:</label>
+                    <input type="text" class="form-control" name="operSum1" id="operSum1"> + <input type="text" class="form-control" name="operSum2" id="operSum2">
+					<td><input type="button" value=" = " onClick="sum(this.form.RequestOperacion)"></td>
+					<input type="text" class="form-control" id="resultadoSuma" readonly >
+                </div>
+                <div class="form-group" id="calcResta" style="display:none;">
+                    <label for="">Resta:</label>
+                    <input type="text" class="form-control" name="operRes1" id="operRes1"> - <input type="text" class="form-control" name="operRes2" id="operRes2">
+					<td><input type="button" value=" = " onClick="res(this.form.RequestOperacion)"></td>
+					<input type="text" class="form-control" id="resultadoResta" readonly >
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
  </body>
 </html>
